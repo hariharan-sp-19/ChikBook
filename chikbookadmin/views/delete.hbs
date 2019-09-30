@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin panal</title>
+    <script type="text/javascript"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/side.css">
+    <script type="text/javascript" src="javascripts/side.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse sidebar " role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Chik</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/admin">Home<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+                <li ><a href="/custview">Customers<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+                <li ><a href="/add">Add items<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-plus"></span></a></li>
+                <li ><a href="/item">Items<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-pencil"></span></a></li>
+                <li ><a href="/restock">restock<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-send"></span></a></li>
+                <li ><a href="/restockhis">Restock History<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a></li> 
+                <li ><a href="/message">Message Admin<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a></li>
+                <li ><a href="/collcash">Collected Cash<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a></li> 
+                <li ><a href="/cashreg">Cash Registry<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a></li>
+                 <li ><a href="/signup">Add Client<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-plus"></span></a></li>  
+                <li ><a href="/logout">Log out<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span></a></li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="main">
+    <div class="container">
+
+<div class="col-sm-6 col-sm-offset-3">
+
+    <a href='/signup'  class="btn btn-primary btn-md">create</a>
+
+    <a href="/delete" class="btn btn-primary btn-md">Delete</a>
+
+	<h1><span class="fa fa-sign-in"></span>Delete Retailer/Outlet</h1>
+
+		{{#if message}}<div class="alert alert-danger">{{message}}</div>
+	{{/if}}
+
+	<!-- LOGIN FORM -->
+	<form action="/delete" method="post">
+		<div class="form-group">
+			<label>Select Id</label>
+  <select class="form-control" name="id">
+    {{#each vars}}
+    <option value="{{this.username}}">{{this.username}}</option>
+    {{/each}}
+  </select>
+		</div>
+		<button type="submit" class="btn btn-warning btn-lg">Delete Client Account</button>
+	</form>
+
+	<hr>
+	
+
+</div>
+
+</div>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+  <head>
+    <script data-require="angular.js@*" data-semver="1.3.0-beta.5" src="https://code.angularjs.org/1.3.0-beta.5/angular.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/side.css">
+    <script type="text/javascript" src="javascripts/side.js"></script>
+    <style type="text/css">
+    form {
+  position: relative;
+}
+.padd{
+  padding-left: 40px;
+}
+.pa{
+  padding-left: 40px;
+  padding-top: 20px;
+}
+.search__suggestion {
+  font: normal normal normal 14px/normal Arial;
+  position: absolute;
+  left: 482px;
+  top: 4px;
+  color: #aaa;
+  z-index: -1;
+}
+input {
+  font: normal normal normal 14px/normal Arial;
+  background: transparent;
+}
+  </style>
+    </head>    
+  <body onload="onload()">
+    <nav class="navbar sidebar" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Chik</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/buy">Sale<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+                <li ><a href="/customer">Customer<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+                <li ><a href="/his">History<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-pencil"></span></a></li>
+                <li ><a href="/invent">Inventory<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tags"></span></a></li>
+                <li ><a href="/cashreg">Cash Registry<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a></li>
+                <li ><a href="/restock">restock<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-send"></span></a></li>
+                <li ><a href="/message">Message Admin<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a></li> 
+                <li ><a href="/logout">Log out<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="main"> 
+<div class="container">
+
+  <h3>Restock</h3>
+
+  <form action="/restock" method="post">
+    <div class="form-group">
+      <label>Select item to be stocked</label>
+      <select class="form-control" name="restockitem">
+    {{#each var}}
+    <option value="{{this.name}}">{{this.name}}</option>
+    {{/each}}
+  </select>
+    </div>
+    <!--<div class="form-group">
+      <label>No of Quantity</label>
+      <input type="text" class="form-control" name="quantity">
+    </div>-->
+    <button type="submit" class="btn btn-primary btn-md">Send Restock</button>
+  </form>
+
+  <hr>
+  <h4>Requested items</h4>
+  <ul>
+  {{#each vars}}
+    <li>{{this}}</li>
+  {{/each}}
+  </ul>
+</div>
+  </div>
+  </body>
+</html>

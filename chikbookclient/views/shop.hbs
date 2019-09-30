@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+  <head>
+    <script data-require="angular.js@*" data-semver="1.3.0-beta.5" src="https://code.angularjs.org/1.3.0-beta.5/angular.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="stylesheets/side.css">
+    <script type="text/javascript" src="javascripts/side.js"></script>
+    <style type="text/css">
+    form {
+  position: relative;
+}
+.padd{
+  padding-left: 40px;
+}
+.pa{
+  padding-left: 40px;
+  padding-top: 20px;
+}
+.search__suggestion {
+  font: normal normal normal 14px/normal Arial;
+  position: absolute;
+  left: 482px;
+  top: 4px;
+  color: #aaa;
+  z-index: -1;
+}
+input {
+  font: normal normal normal 14px/normal Arial;
+  background: transparent;
+}
+  </style>
+    </head>
+    <script>
+
+    var myApp =  angular.module('myApp', [])
+.controller('MyController', function($scope,$http,$compile){
+  $scope.myData;
+  $scope.results = [];
+  $scope.tot = 0;
+  $scope.flag =0;
+  $scope.item;
+    
+    $http.get("http://54.200.83.182:8000/getdata")
+  .then(function(response) {
+      $scope.myData=response.data;
+  });
+
+
+  $scope.pay = function(){
+            $http({
+        url: 'http://54.200.83.182:8000/pay',
+        method: "POST",
+        data: $scope.results,
+        headers: {
+                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+        }
+    });
+            window.location = "http://54.200.83.182:8000/payget"
+  };
+
+
+
+  $scope.findValue = function(enteredValue) {     
+     if(enteredValue == 'tot'){
+      $scope.tot=0;
+    angular.forEach($scope.results,function(value,index){
+                $scope.tot+=value.price * value.qty;
+            });
+     }
+     else if(enteredValue == 'select'){
+      var sel = document.getElementById("select");
+var text= sel.options[sel.selectedIndex].text;
+$scope.findValue(text);
+     }
+else{
+     angular.forEach($scope.results,function(value,index){
+                if(value.serial==enteredValue){
+                  $scope.results[index].qty+=1;
+                  $scope.flag=1;
+                }
+                $scope.findValue('tot');
+            });
+     if($scope.flag == 0 ){
+    angular.forEach($scope.myData.SerialNumbers, function(value, key) {
+      if (key === enteredValue) {
+        $scope.results.push({serial: key, qty: value[0].Qty ,price: value[0].Price});
+        angular.forEach($scope.results,function(value,index){
+            });  
+      }
+    });
+  }
+  $scope.flag =0;
+  $scope.findValue('tot')
+}
+  };
+
+});
+
+function alert() {
+  alert({{suc}});
+}
+
+    </script>
+
+    
+  <body onload="aler()" ng-app="myApp" ng-controller="MyController">
+    <nav class="navbar sidebar" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Chik</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/buy">Sale<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+                <li ><a href="/customer">Customer<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+                <li ><a href="/his">History<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-pencil"></span></a></li>
+                <li ><a href="/invent">Inventory<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tags"></span></a></li>
+                <li ><a href="/cashreg">Cash Registry<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a></li>
+                <li ><a href="/restock">restock<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-send"></span></a></li>
+                <li ><a href="/message">Message Admin<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a></li>
+                <li ><a href="/logout">Log out<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="main">
+<!-- Content Here -->
+{{#if message}}<div class="alert alert-danger">{{message}}</div>{{/if}}
+    <div class="row">
+    <div class="col col-md-6">
+  <div class="pa">
+  <h4>Select Product</h4>
+  <div class="form-group">
+  <select class="form-control" id="select" name="select">
+    {{#each var}}
+    <option value="{{this.name}}">{{this.name}}</option>
+    {{/each}}
+  </select>
+  <br>
+  <button ng-click="findValue('select')" class="btn btn-sm">add</button>
+</div>
+<hr>
+    <div class="box-creator"> 
+    {{#each var}}
+    <button class="btn btn-primary btn-sm" ng-click="findValue('{{this.name}}')">{{this.name}}</button>
+    {{/each}}
+  </div>
+  </div>
+  </div>
+  <div class="padd">
+    <div class="well col col-md-6">
+    <h3>Product list</h3>                      
+    <table class="table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Quatity</th>
+        <th>Unit price</th>
+        <th>Total Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="x in results">
+        <td ng-bind='x.serial'></td>
+        <td><input ng-model="x.qty" class="form-control" ng-bind="x.qty"/></td>
+        <td ng-bind='x.price'></td>
+        <td ng-bind='x.price*x.qty'></td>
+      </tr>
+      <!--<tr>
+        <td>Grand Total</td>
+        <td></td>
+        <td></td>
+        <td ng-bind="tot"></td>
+      </tr>-->
+    </tbody>
+  </table>
+  <button ng-click="pay()" class="btn btn-primary">Pay</button>
+  </div>
+  </div>
+  </div>
+  </div>
+  </body>
+</html>
