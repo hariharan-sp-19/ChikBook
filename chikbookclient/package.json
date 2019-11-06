@@ -13,7 +13,7 @@
     "express-session": "^1.14.2",
     "hbs": "^4.0.1",
     "jade": "~1.11.0",
-    "mongoose": "^4.7.2",
+    "mongoose": "^5.7.5",
     "morgan": "~1.7.0",
     "mqtt": "^2.1.3",
     "mssql": "^3.3.0",
